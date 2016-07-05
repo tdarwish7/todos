@@ -3,7 +3,11 @@ var bodyParser = require('body-parser');
 var lowdb = require('lowdb');
 var server = express();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> setupDatabase
 var uuid = require('uuid');
 >>>>>>> setupDatabase
 
@@ -18,11 +22,16 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
 
 server.get('/todos', function (request, response){
-  response.send('GET todos');
+  var todos = db.get('todos')
+                .value();
+  response.send(todos);
 });
 
 server.get('/todos/:id', function (request, response){
-  response.send('GET todos :id');
+  var todo = db.get('todos')
+            .find({id: request.params.id})
+            .value();
+  response.send(todo);
 });
 
 server.post('/todos', function (request, response){
@@ -40,11 +49,22 @@ server.post('/todos', function (request, response){
 });
 
 server.put('/todos/:id', function (request, response){
-  response.send('PUT todos :id');
+  var updatedTodoInfo = {
+    description: request.body.description,
+    isComplete: request.body.isComplete
+  };
+  var updatedTodo = db.get('todos')
+                  .find({id: request.params.id})
+                  .assign(updatedTodoInfo)
+                  .value();
+  response.send(updatedTodo);
 });
 
 server.delete('/todos/:id', function (request, response){
-  response.send('DELETE todos :id');
+  var todo = db.get('todos')
+            .remove({id: request.params.id})
+            .value();
+  response.send(todo);
 });
 
 server.get('/todos', function (request, response){
