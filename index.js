@@ -1,7 +1,7 @@
 var express = require('express');
+var server = express();
 var bodyParser = require('body-parser');
 var lowdb = require('lowdb');
-var server = express();
 var uuid = require('uuid');
 
 var port = process.env.PORT || 8080;
@@ -46,6 +46,7 @@ server.put('/todos/:id', function (request, response){
     description: request.body.description,
     isComplete: request.body.isComplete
   };
+  
   var updatedTodo = db.get('todos')
                   .find({id: request.params.id})
                   .assign(updatedTodoInfo)
