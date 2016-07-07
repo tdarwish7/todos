@@ -8,7 +8,10 @@ function Todo(description){
 }
 
 Todo.prototype.updateComplete = function(value){
-  this.isComplete = value;
+  if(value === 'value'){
+    this.isComplete = true;
+  } else {
+    this.isComplete = false;
 };
 
 //sandbox
