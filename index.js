@@ -1,9 +1,14 @@
+
 var express = require('express');
 var server = express();
 var bodyParser = require('body-parser');
 var lowdb = require('lowdb');
 var uuid = require('uuid');
 
+//import my model
+var Todo = require('./models/todo.js');
+var testTodo = new Todo('some stuff');
+console.log(testTodo);
 var port = process.env.PORT || 8080;
 var db = lowdb('db.json');
 
@@ -46,7 +51,7 @@ server.put('/todos/:id', function (request, response){
     description: request.body.description,
     isComplete: request.body.isComplete
   };
-  
+
   var updatedTodo = db.get('todos')
                   .find({id: request.params.id})
                   .assign(updatedTodoInfo)
