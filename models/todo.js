@@ -7,6 +7,10 @@ function Todo(description){
   this.isComplete = false;
 }
 
+Todo.prototype.updateComplete = function(value){
+  this.isComplete = value;
+};
+
 //sandbox
 // var todo1 = new Todo('read my book');
 // var todo2 = new Todo('practice programming');

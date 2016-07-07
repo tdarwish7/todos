@@ -33,12 +33,7 @@ server.get('/todos/:id', function (request, response){
 });
 
 server.post('/todos', function (request, response){
-  var todo ={
-    id: uuid.v4(),
-    description: request.body.description,
-    isComplete: false
-  };
-
+  var todo = new Todo(request.body.description);
   var result = db.get('todos')
                 .push(todo)
                 .last()
@@ -47,14 +42,12 @@ server.post('/todos', function (request, response){
 });
 
 server.put('/todos/:id', function (request, response){
-  var updatedTodoInfo = {
-    description: request.body.description,
-    isComplete: request.body.isComplete
-  };
+  var todo = new Todo(request.body.description);
+  todo.updateComplete(request.body.isComplete);
 
   var updatedTodo = db.get('todos')
                   .find({id: request.params.id})
-                  .assign(updatedTodoInfo)
+                  .assign(todo)
                   .value();
   response.send(updatedTodo);
 });
