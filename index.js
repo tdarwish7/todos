@@ -7,8 +7,6 @@ var uuid = require('uuid');
 
 //import my model
 var Todo = require('./models/todo.js');
-var testTodo = new Todo('some stuff');
-console.log(testTodo);
 var port = process.env.PORT || 8080;
 var db = lowdb('db.json');
 
@@ -21,14 +19,14 @@ server.use(bodyParser.urlencoded({extended: true}));
 
 server.get('/todos', function (request, response){
   var todos = db.get('todos')
-                .value();
+                  .value();
   response.send(todos);
 });
 
 server.get('/todos/:id', function (request, response){
   var todo = db.get('todos')
             .find({id: request.params.id})
-            .value();
+            .value()
   response.send(todo);
 });
 
@@ -42,9 +40,8 @@ server.post('/todos', function (request, response){
 });
 
 server.put('/todos/:id', function (request, response){
-  var todo = new Todo(request.body.description);
+  var todo = new Todo(request.body.description, request.params.id);
   todo.updateComplete(request.body.isComplete);
-
   var updatedTodo = db.get('todos')
                   .find({id: request.params.id})
                   .assign(todo)
